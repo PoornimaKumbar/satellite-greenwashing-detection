@@ -9,5 +9,5 @@ Scikit-learn – Used to build and train the machine learning model.
 Streamlit – Used to create the interactive web dashboard for displaying results.
 Remote Sensing Techniques – Used to analyze satellite images and calculate vegetation indicators like NDVI.
 
-**Author**
+****Author** :**
 Poornima Kumbar
