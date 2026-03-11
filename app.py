@@ -47,22 +47,23 @@ uploaded_file = st.sidebar.file_uploader(
 image = None
 
 # LOAD URL IMAGE
-if url:
+if url.strip() != "":
     try:
-        headers={"User-Agent":"Mozilla/5.0"}
-        response = requests.get(url, headers=headers)
+        if url.startswith("http"):
+            headers = {"User-Agent": "Mozilla/5.0"}
+            response = requests.get(url, headers=headers, timeout=10)
 
-        if "image" in response.headers.get("Content-Type",""):
-            image = Image.open(BytesIO(response.content)).convert("RGB").resize((224,224))
-        else:
-            st.sidebar.error("URL is not an image")
-    except:
-        st.sidebar.error("Unable to load image")
+            if "image" in response.headers.get("Content-Type",""):
+                image = Image.open(BytesIO(response.content)).convert("RGB").resize((224,224))
+            else:
+                st.sidebar.warning("The URL does not contain an image.")
+
+    except Exception as e:
+        st.sidebar.warning("Could not load image from URL.")
 
 # LOAD UPLOADED IMAGE
 if uploaded_file is not None:
     image = Image.open(uploaded_file).convert("RGB").resize((224,224))
-
 
 # PROCESS IMAGE
 if image is not None:
